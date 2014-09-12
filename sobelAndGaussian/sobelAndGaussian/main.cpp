@@ -54,8 +54,8 @@ int main(int argc, char** argv)
 	xx = new float*[2*win_size+1];
 	yy = new float*[2*win_size+1];
 
-	const char* filename = argc >= 2 ? argv[1] : "hello2.jpg";
-	Mat src = imread(filename,1);
+	const char* filename = argc >= 2 ? argv[1] : "hello3.jpg";
+	Mat src = imread(filename,0);
 	if(src.empty())
 	{
 		cout << "can not open " << filename << endl;
@@ -111,7 +111,7 @@ int main(int argc, char** argv)
 			x[j][i+win_size] = c*arr[j][i+win_size];
 		}
 	}
-	normalizeData(x,win_size);
+	//normalizeData(x,win_size);
 	for (int i = 0;i<2*win_size+1;i++)
 	{
 		for (int j = 0 ;j<2*win_size+1;j++)
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
 		}
 		
 	}
-	normalizeData(y,win_size);
+	//normalizeData(y,win_size);
 
 	double sigma2 = sigma * sigma;  
 	double sigma4 = sigma2 * sigma2;  
@@ -154,7 +154,7 @@ int main(int argc, char** argv)
 			xx[i][x + win_size] = c * arr[i][x + win_size];      
 		} 
 	}  
-	normalizeData(xx,win_size);
+	//normalizeData(xx,win_size);
 
 	for(int y=-win_size; y<=win_size; y++)  
 	{  
@@ -164,12 +164,11 @@ int main(int argc, char** argv)
 			yy[y + win_size][i] = c * arr[y + win_size][i];               
 		}  
 	} 
-	normalizeData(yy,win_size);
+	//normalizeData(yy,win_size);
 
 	int width = src.cols;  
 	int height = src.rows;  
-
-	int index = 0, index2 = 0;  
+ 
 	double xred = 0, xgreen = 0, xblue = 0;  
 	double yred = 0, ygreen = 0, yblue = 0;  
 	int newRow, newCol;  
@@ -179,7 +178,7 @@ int main(int argc, char** argv)
 			int ta = 255, tr = 0, tg = 0, tb = 0;  
 			for(int col=0; col<width; col++) 
 			{  
-				index = row * width + col;  
+ 
 				for(int subrow = -win_size; subrow <= win_size; subrow++) 
 				{  
 					for(int subcol = -win_size; subcol <= win_size; subcol++) 
@@ -194,21 +193,23 @@ int main(int argc, char** argv)
 						{  
 							newCol = col;  
 						}  
-						index2 = newRow * width + newCol;  
-						tr = src_(row,col)[2];  
-						tg = src_(row,col)[1];  
-						tb = src_(row,col)[0];  
-						xred += (x[subrow + win_size][subcol + win_size] * tr);  
-						xgreen +=(x[subrow + win_size][subcol + win_size] * tg);  
-						xblue +=(x[subrow + win_size][subcol + win_size] * tb);  
+
+						//tr = src_(newRow,newCol)[2];  
+						//tg = src_(newRow,newCol)[1];  
+						//tb = src_(newRow,newCol)[0];  
+						tr = src.at<char>(newRow,newCol);
+						xred += (yy[subrow + win_size][subcol + win_size] * tr);  
+						//xgreen +=(x[subrow + win_size][subcol + win_size] * tg);  
+						//xblue +=(x[subrow + win_size][subcol + win_size] * tb);  
 					}  
 				}  
-				int temp1 = xred * 10 + 50; 
-				int temp2 = xgreen*10 +50;
-				int temp3 = xblue*10 +50;
-				dst_(row,col)[2] = temp1 < 0 ? 0 : (temp1 > 255 ? 255 : temp1);
-				dst_(row,col)[1] = temp2 < 0 ? 0 : (temp2 > 255 ? 255 : temp2);
-				dst_(row,col)[0] = temp3 < 0 ? 0 : (temp3 > 255 ? 255 : temp3);
+				//int temp1 = xred * 10 + 50; 
+				dst.at<char>(row,col) = xred;
+				//int temp2 = xgreen*10 +50;
+				//int temp3 = xblue*10 +50;
+				//dst_(row,col)[2] = temp1 < 0 ? 0 : (temp1 > 255 ? 255 : temp1);
+				//dst_(row,col)[1] = temp2 < 0 ? 0 : (temp2 > 255 ? 255 : temp2);
+				//dst_(row,col)[0] = temp3 < 0 ? 0 : (temp3 > 255 ? 255 : temp3);
 
 				newRow = newCol = 0;  
 				xred = xgreen = xblue = 0;  
