@@ -1,9 +1,9 @@
 #include "GaussianDerivation.h"
 
-GaussianDerivation::GaussianDerivation()
+GaussianDerivation::GaussianDerivation(int WIN_SIZE , float SIGMA)
 {
-	win_size = 1;
-	sigma = 10;
+	win_size = WIN_SIZE;
+	sigma = SIGMA;
 	sigma2 = sigma * sigma;  
 	sigma4 = sigma2 * sigma2;  
 	arr = new float*[2*win_size+1];

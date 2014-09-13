@@ -19,7 +19,8 @@ enum deviation_type
 class GaussianDerivation
 {
 public:
-	GaussianDerivation();
+
+	GaussianDerivation(int WIN_SIZE = 1 , float SIGMA = 10);
 	~GaussianDerivation();
 	int win_size;
 	float sigma ;

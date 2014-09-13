@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 	int width = src.cols;  
 	int height = src.rows;  
  
-	GaussianDerivation gd;
+	GaussianDerivation gd(1,10);
 	gd.processderivation(width,height,src,dst,YDEVIATION);
 
 	namedWindow("hello2");
