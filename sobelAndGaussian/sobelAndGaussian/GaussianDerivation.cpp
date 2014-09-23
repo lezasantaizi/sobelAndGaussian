@@ -204,14 +204,31 @@ void GaussianDerivation::processderivation(int width, int height, Mat& src, Mat&
 				{  
 					int newRow = row + subrow;  
 					int newCol = col + subcol;  
-					if(newRow < 0 || newRow >= height) 
-					{  
-						newRow = row;  
+					//if(newRow < 0 || newRow >= height) 
+					//{  
+					//	newRow = row;  
+					//}  
+					//if(newCol < 0 || newCol >= width) 
+					//{  
+					//	newCol = col;  
+					//}  
+					if (newRow<0)
+					{
+						newRow *= -1;
+					}
+					if (newRow>=height)
+					{
+						newRow = (height -1) - (newRow - (height - 1));
 					}  
-					if(newCol < 0 || newCol >= width) 
-					{  
-						newCol = col;  
-					}  
+
+					if (newCol<0)
+					{
+						newCol *= -1;
+					}
+					if (newCol>=width)
+					{
+						newCol = (width -1) - (newCol - (width - 1));
+					} 
 
 					int tr = src_(newRow,newCol)[2];  
 					int tg = src_(newRow,newCol)[1];  
